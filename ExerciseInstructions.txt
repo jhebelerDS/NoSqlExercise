@@ -1,0 +1,112 @@
+You will need the following files
+
+SpeedDatingData.csv  and Speed Dating Data Key.doc  
+
+NoSQL exercise witih Neo4J and MongoDB
+
+Clean Up Docker (if you want to)
+Remove all unused containers, networks, images (both dangling and unreferenced), and optionally,
+volumes.
+$ docker system prune
+# in my case the above didn’t remove the images for some reason
+$ docker image prune
+
+
+Install and Access Neo4J
+# Obtain the image
+$ docker pull neo4j
+# construct your host directories
+$ mkdir /nosql
+$ mkdir /nosql/neo4j
+$ mkdir /nosql/neo4j/data
+$ mkdir /nosql/neo4j/import
+# Start up the container - Use the default ports below if there is a host conflict change them
+accordingly.
+$ docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v c:/nosql/neo4j/data:/data
+-v c:/nosql/neo4j/import:/import neo4j
+# Get to the neo4j browser interface
+Browser - http://localhost:7474
+Default login: neo4j pw: neo4j
+The system then requires a new password - Select another password - enter it and remember it!
+
+Cypher is the query language used by neo4.
+
+
+Recommend your select “Try Neo4j with live data” to see what it can do. It is easy to step
+through it. Understand the basics of the cypher language.
+The web interface uses the neo4j cypher language -
+https://neo4j.com/docs/cypher-refcard/current/
+# Load the data
+Download the csv file (speeddatingReduced.csv) and put in the /nosql/neo4j/import directoryStudy the explanation file (speeddatingDesc.txt)
+In the neo4J browser… -
+
+Below is just an example. Add the additional fields (at least 10) in the
+columns. It assumes a string unless changed.
+You can load two ways - use the column name - row.<Column Name> or use a index row[0]
+refers to the first column etc. The word row can be anything as long as you are consistent.
+
+
+neo4j$ LOAD CSV WITH HEADERS FROM 'file:///SpeedDatingData.csv' as row CREATE
+(p:Person {gender: row.gender, age:toInteger(row.age )})
+Should respond with number of labels, nodes, and properties created.
+Added 8378 labels, created 8378 nodes, set 16756 properties, completed after 3620 ms.
+
+
+If you make a mistake, you can clear the database with
+neo4j$ MATCH (n) DETACH DELETE n
+
+
+Once loaded answer the following questions: Submit the answers in a word document and you
+must show your cypher call(s) for each one. Each may require more than one cypher call.
+1) Provide the schema
+     db.schema.visualization())
+2) Determine the ratio of Female to Males
+3) Determine the most common age and age range (select reasonable age ranges)
+4) Determining the % of dates that were matches (both selected eachother) 
+   Select columns that would prove useful in predicting a match.
+   Explain your reasoning.
+
+Be careful with the logic - many participants go on multiple dates - you must figure out the correct way to uniquely identify individuals.
+
+
+Install and access MongoDB
+Get the docker image
+$ docker pull mongo:latest
+Create host directories
+$ mkdir /nosql/mongo
+$ mkdir /nosql/mongo/import
+$ mkdir /nosql/mongo/dataCopy in speeddatingReduced.csv to the import directory
+Start up the mongo container
+$ docker run -d --restart unless-stopped -v c:/nosql/mongo/data:/data/db -v
+c:/nosql/mongo/import:/import mongo
+Get the mongo container id
+$ docker ps
+Copy the Container ID for mongo <Container ID>
+Go Inside the container
+$ docker exec -it -u0 <Container ID> bash
+Import csv file
+$ mongoimport --type csv -d speeddating -c events --headerline --drop
+/import/SpeedDatingData.csv
+Run Command Line Access to Mongo
+root@<Container ID>/# mongo
+1)  list databases
+> show databases
+2)  Use speeddating database
+>  use speeddating
+3) show collections inside of the speeddating database
+> show collections
+4)  show one of the collection documents
+> db.events.findOne( )
+5)  find all the matches
+> ??
+6)  count all the matches
+>??
+Reference for mongo shell- https://docs.mongodb.com/manual/reference/mongo-shell/
+Answer the following questions: Enter in a word document and you must show
+your mongo CLI call(s) for each one. Each may require more than one call.
+1. Print out one complete document to show structure
+2. Determine the ratio of Female to Males
+3. Determine the most popular age and age range (select reasonable
+age ranges)
+4. Determining the full match %. Select columns that would prove useful in predicting a match.
+Explain your reasoning.
