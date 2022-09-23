@@ -23,8 +23,9 @@ $ mkdir /nosql/neo4j/data
 $ mkdir /nosql/neo4j/import
 # Start up the container - Use the default ports below if there is a host conflict change them
 accordingly.
-$ docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v c:/nosql/neo4j/data:/data
--v c:/nosql/neo4j/import:/import neo4j
+# Note Windows user must precede the host directory with C:
+$ docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v /nosql/neo4j/data:/data
+-v /nosql/neo4j/import:/import neo4j
 # Get to the neo4j browser interface
 Browser - http://localhost:7474
 Default login: neo4j pw: neo4j
@@ -80,8 +81,9 @@ $ mkdir /nosql/mongo
 $ mkdir /nosql/mongo/import
 $ mkdir /nosql/mongo/dataCopy in speeddatingReduced.csv to the import directory
 Start up the mongo container
+# Note Windows users must insert the drive letter prior to the local directory (eg. C:/)
 $ docker run -d --restart unless-stopped -v c:/nosql/mongo/data:/data/db -v
-c:/nosql/mongo/import:/import mongo
+c:/nosql/mongo/import:/import -p 27017:27017 mongo
 Get the mongo container id
 $ docker ps
 Copy the Container ID for mongo <Container ID>
