@@ -11,6 +11,7 @@ $ docker system prune
 # in my case the above didn’t remove the images for some reason
 $ docker image prune
 
+NEO4J SECTION
 
 Install and Access Neo4J
 # Obtain the image
@@ -40,34 +41,36 @@ https://neo4j.com/docs/cypher-refcard/current/
 Download the csv file (speeddatingReduced.csv) and put in the /nosql/neo4j/import directoryStudy the explanation file (speeddatingDesc.txt)
 In the neo4J browser… -
 
-Below is just an example. Add the additional fields (at least 10) in the
+Below is just an example. Add the additional fields in the
 columns. It assumes a string unless changed.
 You can load two ways - use the column name - row.<Column Name> or use a index row[0]
 refers to the first column etc. The word row can be anything as long as you are consistent.
 
+The following consists of two calls that can be combined in the browser command window.  The first call (LOAD ...) reads in the csv file from the filesystem in the container.  The second calls (MERGE ...) creates the nodes and relationships.  There are more columns that listed here but this gives you a good start...
 
-neo4j$ LOAD CSV WITH HEADERS FROM 'file:///SpeedDatingData.csv' as row CREATE
-(p:Person {gender: row.gender, age:toInteger(row.age )})
-Should respond with number of labels, nodes, and properties created.
-Added 8378 labels, created 8378 nodes, set 16756 properties, completed after 3620 ms.
-
+LOAD CSV WITH HEADERS FROM "file:///SpeedDatingData.csv" AS row
+WITH row WHERE NOT row.age IS null AND NOT row.iid IS null AND NOT row.pid IS null AND NOT row.age_o IS null and NOT row.race IS null and NOT row.race_o IS null and NOT row.match IS null and NOT row.int_corr IS null and NOT row.gender is  null
+MERGE(p1 :Person {id:row.iid,age:toInteger(row.age), race:toInteger(row.race) }) MERGE( p2: Person {id:row.pid, age:toInteger(row.age_o), race:toInteger(row.race_o)}) MERGE((p1) - [:Date {match: row.match, int_corr: row.int_corr}] -> (p2)) SET p1.gender = toInteger(row.gender)
 
 If you make a mistake, you can clear the database with
 neo4j$ MATCH (n) DETACH DELETE n
 
-
+From this load you can answer the following questions using cypher language in the neo4j browser window
 Once loaded answer the following questions: Submit the answers in a word document and you
 must show your cypher call(s) for each one. Each may require more than one cypher call.
 1) Provide the schema
      db.schema.visualization())
 2) Determine the ratio of Female to Males
-3) Determine the most common age and age range (select reasonable age ranges)
-4) Determining the % of dates that were matches (both selected eachother) 
+3) Determining the % of dates that were matches (both selected eachother) 
    Select columns that would prove useful in predicting a match.
    Explain your reasoning.
 
 Be careful with the logic - many participants go on multiple dates - you must figure out the correct way to uniquely identify individuals.
 
+Now that you have the basics.  Go back to the Speed Dating Data Key.doc and select additional columns that you think would be useful in predicting a match.  Then setup supervised learning to create a model that predicts a match.  There isn't a lot of data so see what performance you can achieve.  You are free to use any model you like.
+
+
+MONGO DB SECTION
 
 Install and access MongoDB
 Get the docker image
