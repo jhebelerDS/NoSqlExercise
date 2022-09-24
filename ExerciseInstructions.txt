@@ -66,7 +66,7 @@ must show your cypher call(s) for each one. Each may require more than one cyphe
    Select columns that would prove useful in predicting a match.
    Explain your reasoning.
 
-Be careful with the logic - many participants go on multiple dates - you must figure out the correct way to uniquely identify individuals.
+Be careful with the logic - many participants go on multiple dates - you must figure out the correct way to uniquely identify individuals.  Enter these answers in the notebook with the query.
 
 Now that you have the basics.  Go back to the Speed Dating Data Key.doc and select additional columns that you think would be useful in predicting a match.  Then setup supervised learning to create a model that predicts a match.  There isn't a lot of data so see what performance you can achieve.  You are free to use any model you like.
 
@@ -90,10 +90,11 @@ Copy the Container ID for mongo <Container ID>
 Go Inside the container
 $ docker exec -it -u0 <Container ID> bash
 Import csv file
-$ mongoimport --type csv -d speeddating -c events --headerline --drop
-/import/SpeedDatingData.csv
+$ mongoimport --type csv -d speeddating -c events --headerline --drop /import/SpeedDatingData.csv
+#unless certain chars are removed, it will produce errors.  So the file speeddatingReduced.csv is available or you can try to clean it up youself.
+
 Run Command Line Access to Mongo
-root@<Container ID>/# mongo
+root@<Container ID>/# mongosh  - this provides a basic interface to query the database.
 1)  list databases
 > show databases
 2)  Use speeddating database
@@ -103,15 +104,10 @@ root@<Container ID>/# mongo
 4)  show one of the collection documents
 > db.events.findOne( )
 5)  find all the matches
-> ??
-6)  count all the matches
->??
-Reference for mongo shell- https://docs.mongodb.com/manual/reference/mongo-shell/
-Answer the following questions: Enter in a word document and you must show
-your mongo CLI call(s) for each one. Each may require more than one call.
-1. Print out one complete document to show structure
-2. Determine the ratio of Female to Males
-3. Determine the most popular age and age range (select reasonable
-age ranges)
-4. Determining the full match %. Select columns that would prove useful in predicting a match.
-Explain your reasoning.
+
+Enter these answers in the notebook with the query string.
+
+Now query the features you need to build a prediction model for matches.
+
+Finally, at the end of the notebook enter a section that cntrasts the two databases.  Note the advantages and disadvantages of each?  What type of situation is each best suited for?
+
