@@ -109,5 +109,8 @@ Enter these answers in the notebook with the query string.
 
 Now query the features you need to build a prediction model for matches.
 
-Finally, at the end of the notebook enter a section that cntrasts the two databases.  Note the advantages and disadvantages of each?  What type of situation is each best suited for?
+Finally, at the end of the notebook enter a section that contrast the two databases.  Note the advantages and disadvantages of each?  What type of situation is each best suited for?
+
+Summary:
+Create two notebooks:neo4jdating.ipynb and mongodating.ipynb.  Place all the answers in the notebooks with the final section in the mongodating.ipynb with the contrast observations between the two.  Although you are free to do it, it is not required to create a working docker image and place it into you docker hub repository.
 
