@@ -1,2 +1,0 @@
-match(p:Person) - [m:Date] - (p2:Person) return p.gender, p.age, p.race, m.match limit 1
-
