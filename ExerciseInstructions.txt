@@ -46,7 +46,7 @@ through it. Understand the basics of the cypher language.
 The web interface uses the neo4j cypher language -
 https://neo4j.com/docs/cypher-refcard/current/
 # Load the data
-Download the csv file (speeddatingReduced.csv) and put in the /nosql/neo4j/import directoryStudy the explanation file (speeddatingDesc.txt)
+Download the csv file (SpeedDatingData.csv) and put in the /nosql/neo4j/import directoryStudy
 In the neo4J browser… -
 
 Below is just an example. Add the additional fields in the
@@ -71,7 +71,7 @@ If you make a mistake, you can clear the database with
 neo4j$ MATCH (n) DETACH DELETE n
 
 From this load you can answer the following questions using cypher language in the neo4j browser window
-Once loaded answer the following questions: Submit the answers in a word document and you
+Once loaded answer the following questions: Submit the answers in a your notebook.
 must show your cypher call(s) for each one. Each may require more than one cypher call.
 1) Provide the schema
      db.schema.visualization())
