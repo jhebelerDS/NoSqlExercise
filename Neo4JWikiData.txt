@@ -1,0 +1,10 @@
+LOAD CSV WITH HEADERS FROM "file:///USPresidentsFullFiltered.csv" AS row
+WITH row WHERE NOT row.First IS null AND NOT row.Last IS null AND NOT row.Sibling IS null AND NOT row.Religion IS null and NOT row.PoliticalParty IS null and NOT row.Number_of_children IS null and NOT row.ChildName IS null and NOT row.Education IS null and NOT row.Sibling is null
+MERGE(p :Human {Role:"President",FirstName:row.First,LastName:row.Last) MERGE(r: Religion {name:row.Religion}) MERGE(pol:PoliticalParty { name:row.PoliticalParty}) MERGE( e: Education {name:row.Education}), NumberofChildren:row.Number_of_children }) MERGE( s: Human {name:row.Sibling}) MERGE ((p) - [:hasSibling]-> (s)) MERGE(c:Human {name:row.ChildName}) MERGE((p) -[:hasChild]->(c))
+
+LOAD CSV WITH HEADERS FROM "file:///USPresidentsFullFiltered.csv" AS row
+WITH row WHERE NOT row.First IS null AND NOT row.Last IS null AND NOT row.Number_of_children is null AND NOT row.Education is null AND NOT row.Religion is null AND NOT row.PoliticalParty is null
+MERGE(p :Human {Role:"President",FirstName:row.First,LastName:row.Last, Children:row.Number_of_children}) MERGE(r: Religion {name:row.Religion}) MERGE(pol:PoliticalParty { name:row.PoliticalParty}) MERGE( e: Education {name:row.Education}) MERGE ((p) -[:hasReligion] -> (r)) MERGE ((p) - [:hasPoliticalParty] -> (pol)) MERGE((p) - [:hasEducation] -> (e))
+
+LOAD CSV WITH HEADERS FROM "file:///NovPresidents.csv" as row
+MERGE(p:Human {name:row.president, birthdate:datetime({epochMillis:apoc.date.parse(row.date_of_birthLable,'ms', 'yyyy-MM-dd')})})

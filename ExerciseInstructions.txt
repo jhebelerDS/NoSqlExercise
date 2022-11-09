@@ -25,11 +25,24 @@ $ docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v /nosql/neo
 -v /nosql/neo4j/import:/import neo4j
 
 # If you want to play with graph analytics - beyond this course start as follows instead:
-# docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v /nosql/neo4j/data:/data
--v /nosql/neo4j/import:/import -e NEO4J_AUTH=none --env NEO4JLABS_PLUGINS='["graph-data-science"]' neo4j
 
-  
-  
+# docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v /nosql/neo4j/data:/data\
+-v /nosql/neo4j/import:/import -e NEO4J_AUTH=none --env NEO4JLABS_PLUGINS='["graph-data-science"]' \
+    -e NEO4J_apoc_export_file_enabled=true \
+    -e NEO4J_apoc_import_file_enabled=true \
+    -e NEO4J_apoc_import_file_use__neo4j__config=true \
+    -e NEO4JLABS_PLUGINS=\[\"apoc\"\] \
+    neo4j
+
+
+# docker run -p 7474:7474 -p 7687:7687 -d --restart unless-stopped -v /mnt/nas916/workspace/Neo4j/data2022:/data \
+-v /mnt/nas916/workspace/Neo4j/import:/import -e NEO4J_AUTH=none --env NEO4JLABS_PLUGINS='["graph-data-science"]' \
+    -e NEO4J_apoc_export_file_enabled=true \
+    -e NEO4J_apoc_import_file_enabled=true \
+    -e NEO4J_apoc_import_file_use__neo4j__config=true \
+    -e NEO4JLABS_PLUGINS=\[\"apoc\"\] \
+    neo4j
+
 # Get to the neo4j browser interface
 Browser - http://localhost:7474
 Default login: neo4j pw: neo4j
